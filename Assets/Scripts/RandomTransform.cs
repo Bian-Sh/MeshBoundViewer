@@ -23,7 +23,7 @@ public class RandomTransform : MonoBehaviour
 
     void Start()
     {
-        // ³õÊ¼»¯Ä¿±êËõ·Å¡¢Ğı×ªºÍÎ»ÒÆÖµ
+        // åˆå§‹åŒ–ç›®æ ‡ç¼©æ”¾ã€æ—‹è½¬å’Œä½ç§»å€¼
         targetScale = transform.localScale;
         targetRotation = transform.rotation;
         targetPosition = transform.position;
@@ -31,15 +31,17 @@ public class RandomTransform : MonoBehaviour
 
     void Update()
     {
-        // Ëæ»úËõ·Å
+        // éšæœºç¼©æ”¾
         if (Vector3.Distance(transform.localScale, targetScale) < 0.1f)
         {
-            float randomScale = Random.Range(minScale, maxScale);
-            targetScale = new Vector3(randomScale, randomScale, randomScale);
+            float randomScale_x = Random.Range(minScale, maxScale);
+            float randomScale_y = Random.Range(minScale, maxScale);
+            float randomScale_z = Random.Range(minScale, maxScale);
+            targetScale = new Vector3(randomScale_x, randomScale_y, randomScale_z);
         }
         transform.localScale = Vector3.Lerp(transform.localScale, targetScale, scaleSpeed * Time.deltaTime);
 
-        // Ëæ»úĞı×ª
+        // éšæœºæ—‹è½¬
         if (Quaternion.Angle(transform.rotation, targetRotation) < 5f)
         {
             float randomRotationX = Random.Range(minRotation, maxRotation);
@@ -49,21 +51,21 @@ public class RandomTransform : MonoBehaviour
         }
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-        // Ëæ»úÎ»ÒÆ
+        // éšæœºä½ç§»
         if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
         {
             float randomPositionX = Random.Range(minPositionX, maxPositionX);
             float randomPositionY = Random.Range(minPositionY, maxPositionY);
-            float randomPositionZ = transform.position.z; // ²»¸Ä±ä z ×ø±ê
+            float randomPositionZ = transform.position.z; // ä¸æ”¹å˜ z åæ ‡
             targetPosition = new Vector3(randomPositionX, randomPositionY, randomPositionZ);
         }
         transform.position = Vector3.Lerp(transform.position, targetPosition, positionSpeed * Time.deltaTime);
 
-        // ¼ì²âÓÎÏ·¶ÔÏóÊÇ·ñÔÚÆÁÄ»ÄÚ
+        // æ£€æµ‹æ¸¸æˆå¯¹è±¡æ˜¯å¦åœ¨å±å¹•å†…
         Vector3 viewportPoint = mainCamera.WorldToViewportPoint(transform.position);
         if (viewportPoint.x < 0 || viewportPoint.x > 1 || viewportPoint.y < 0 || viewportPoint.y > 1)
         {
-            // ½«ÓÎÏ·¶ÔÏóÒÆ¶¯»ØÆÁÄ»ÄÚ
+            // å°†æ¸¸æˆå¯¹è±¡ç§»åŠ¨å›å±å¹•å†…
             transform.position = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, viewportPoint.z));
             targetPosition = transform.position;
         }
